@@ -1,4 +1,4 @@
-export const BASE_URL = "http://api.mesto.khaera.nomoredomains.xyz";
+export const BASE_URL = "https://api.mesto.khaera.nomoredomains.xyz";
 
 const checkResponse = (response) => {
   return response.ok
