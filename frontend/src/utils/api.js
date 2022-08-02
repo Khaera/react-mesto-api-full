@@ -13,14 +13,14 @@ class Api {
   getUserInfo() {
     return fetch(`${this._url}/users/me`, {
       method: "GET",
-      headers: this._headers,
+      headers: this._headers
     }).then((res) => this._getResponseData(res));
   }
 
   getInitialCards() {
     return fetch(`${this._url}/cards`, {
       method: "GET",
-      headers: this._headers,
+      headers: this._headers
     }).then((res) => this._getResponseData(res));
   }
 
@@ -30,8 +30,8 @@ class Api {
       headers: this._headers,
       body: JSON.stringify({
         name: userData.name,
-        about: userData.about,
-      }),
+        about: userData.about
+      })
     }).then((res) => this._getResponseData(res));
   }
 
@@ -41,22 +41,22 @@ class Api {
       headers: this._headers,
       body: JSON.stringify({
         name: name,
-        link: link,
-      }),
+        link: link
+      })
     }).then((res) => this._getResponseData(res));
   }
 
   deleteCard(id) {
     return fetch(`${this._url}/cards/${id}`, {
       method: "DELETE",
-      headers: this._headers,
+      headers: this._headers
     }).then((res) => this._getResponseData(res));
   }
 
   changeLikeCardStatus(id, isLiked) {
     return fetch(`${this._url}/cards/${id}/likes`, {
       method: !isLiked ? "PUT" : "DELETE",
-      headers: this._headers,
+      headers: this._headers
     }).then((res) => this._getResponseData(res));
   }
 
@@ -65,18 +65,18 @@ class Api {
       method: "PATCH",
       headers: this._headers,
       body: JSON.stringify({
-        avatar: avatar,
-      }),
+        avatar: avatar
+      })
     }).then((res) => this._getResponseData(res));
   }
 }
 
 const api = new Api({
-  url: "https://mesto.nomoreparties.co/v1/cohort-40",
+  url: "http://api.mesto.khaera.nomoredomains.xyz",
   headers: {
-    authorization: "aef7fcbf-4f7d-4b00-9645-5edf6bf5ca39",
-    "content-type": "application/json",
-  },
+    authorization: localStorage.getItem("jwt"),
+    "content-type": "application/json"
+  }
 });
 
 export default api;
