@@ -16,14 +16,6 @@ const { PORT = 3000 } = process.env;
 const handleErrors = require('./middlewares/handleErrors');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 
-const allowedCors = [
-  'https://praktikum.tk',
-  'http://praktikum.tk',
-  'http://mesto.khaera.nomoredomains.xyz',
-  'http://api.mesto.khaera.nomoredomains.xyz',
-  'localhost:3000',
-];
-
 const app = express();
 
 app.use(bodyParser.json());
@@ -36,23 +28,6 @@ mongoose.connect('mongodb://localhost:27017/mestodb', {
 });
 
 app.use(requestLogger);
-
-// eslint-disable-next-line consistent-return
-app.use((req, res, next) => {
-  const { origin } = req.headers;
-  const { method } = req;
-  const requestHeaders = req.headers['access-control-request-headers'];
-  if (allowedCors.includes(origin)) {
-    res.header('Access-Control-Allow-Origin', origin);
-  }
-
-  if (method === 'OPTIONS') {
-    res.header('Access-Control-Allow-Headers', requestHeaders);
-    return res.end();
-  }
-
-  next();
-});
 
 app.post('/signup', celebrate({
   body: Joi.object().keys({
