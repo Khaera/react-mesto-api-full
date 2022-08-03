@@ -20,7 +20,7 @@ class Api {
   getInitialCards() {
     return fetch(`${this._url}/cards`, {
       method: "GET",
-      headers: this._headers
+      headers: this._headers,
     }).then((res) => this._getResponseData(res));
   }
 
@@ -74,8 +74,8 @@ class Api {
 const api = new Api({
   url: "https://api.mesto.khaera.nomoredomains.xyz",
   headers: {
-    authorization: `Bearer ${localStorage.getItem("jwt")}`,
-    "content-type": "application/json"
+    "content-type": "application/json",
+    Authorization: `Bearer ${localStorage.getItem('jwt')}`
   }
 });
 

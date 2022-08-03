@@ -105,11 +105,11 @@ function App() {
 
         if (data.token) {
           localStorage.setItem("jwt", data.token);
+          console.log(data);
           setUserEmail({
             email: email
           });
           setLoggedIn(true);
-          history.push("/");
         }
       })
       .catch(() => {
