@@ -1,8 +1,8 @@
 const allowedCors = [
-  'https://mesto.khaera.nomoredomains.xyz',
-  'http://mesto.khaera.nomoredomains.xyz',
-  'http://localhost:3000',
-  'localhost:3000',
+  'https://mesto.khaera.nomoredomains.xyz/',
+  'http://mesto.khaera.nomoredomains.xyz/',
+  'http://localhost:3000/',
+  'localhost:3000/',
 ];
 
 // eslint-disable-next-line consistent-return
