@@ -65,7 +65,9 @@ function App() {
           setCurrentUser(userData);
           setCards(initialCards);
         })
-        .catch((error) => console.log(error));
+        .catch((error) => {
+          console.log(error);
+        });
     }
   }, [loggedIn]);
 
