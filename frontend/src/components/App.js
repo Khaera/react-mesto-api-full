@@ -61,12 +61,10 @@ function App() {
     if (loggedIn) {
       Promise.all([api.getUserInfo(), api.getInitialCards()])
         .then(([userData, initialCards]) => {
-          console.log(localStorage.getItem('jwt'));
           setCurrentUser(userData);
           setCards(initialCards);
         })
         .catch((error) => {
-          console.log(localStorage.getItem('jwt'));
           console.log(error);
         });
     }
