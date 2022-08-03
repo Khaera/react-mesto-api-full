@@ -74,7 +74,7 @@ class Api {
 const api = new Api({
   url: "https://api.mesto.khaera.nomoredomains.xyz",
   headers: {
-    authorization: localStorage.getItem("jwt"),
+    authorization: `Bearer ${localStorage.getItem("jwt")}`,
     "content-type": "application/json"
   }
 });
