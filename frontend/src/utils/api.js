@@ -13,14 +13,20 @@ class Api {
   getUserInfo() {
     return fetch(`${this._url}/users/me`, {
       method: "GET",
-      headers: this._headers
+      headers: {
+        "content-type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem('jwt')}`
+      }
     }).then((res) => this._getResponseData(res));
   }
 
   getInitialCards() {
     return fetch(`${this._url}/cards`, {
       method: "GET",
-      headers: this._headers,
+      headers: {
+        "content-type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem('jwt')}`
+      }
     }).then((res) => this._getResponseData(res));
   }
 

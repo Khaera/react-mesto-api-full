@@ -51,7 +51,6 @@ function App() {
     tokenCheck();
   }, []);
 
-  //если залогинены, то редирект на /
   useEffect(() => {
     if (loggedIn) {
       history.push("/");
@@ -62,10 +61,12 @@ function App() {
     if (loggedIn) {
       Promise.all([api.getUserInfo(), api.getInitialCards()])
         .then(([userData, initialCards]) => {
+          console.log(localStorage.getItem('jwt'));
           setCurrentUser(userData);
           setCards(initialCards);
         })
         .catch((error) => {
+          console.log(localStorage.getItem('jwt'));
           console.log(error);
         });
     }
@@ -107,7 +108,6 @@ function App() {
 
         if (data.token) {
           localStorage.setItem("jwt", data.token);
-          console.log(data);
           setUserEmail({
             email: email
           });
