@@ -1,8 +1,7 @@
 const allowedCors = [
-  'http://mesto.khaera.nomoredomains.xyz',
   'https://mesto.khaera.nomoredomains.xyz',
+  'http://mesto.khaera.nomoredomains.xyz',
   'http://localhost:3000',
-  'https://localhost:3000',
   'localhost:3000',
 ];
 
