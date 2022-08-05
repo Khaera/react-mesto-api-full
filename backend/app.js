@@ -1,7 +1,8 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
-const { celebrate, Joi, errors } = require('celebrate');
+const helmet = require('helmet');
+const { errors } = require('celebrate');
 
 const userRouter = require('./routes/users');
 const cardRouter = require('./routes/cards');
@@ -11,19 +12,26 @@ const auth = require('./middlewares/auth');
 
 const { createUser, login } = require('./controllers/users');
 
-const { PORT = 3000 } = process.env;
+const { PORT = 3000, MONGO_LINK } = process.env;
 
 const handleErrors = require('./middlewares/handleErrors');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
+const registerValidation = require('./utils/validation/registerValidation');
+const loginValidation = require('./utils/validation/loginValidation');
+const limiter = require('./utils/rateLimiter');
 const cors = require('./middlewares/cors');
 
 const app = express();
+
+app.use(limiter);
+
+app.use(helmet());
 
 app.use(bodyParser.json());
 
 app.use(cors);
 
-mongoose.connect('mongodb://127.0.0.1:27017/mestodb', {
+mongoose.connect(MONGO_LINK, {
   useNewUrlParser: true,
   useCreateIndex: true,
   useFindAndModify: false,
@@ -32,27 +40,8 @@ mongoose.connect('mongodb://127.0.0.1:27017/mestodb', {
 
 app.use(requestLogger);
 
-app.get('/crash-test', () => {
-  setTimeout(() => {
-    throw new Error('Сервер сейчас упадёт');
-  }, 0);
-});
-
-app.post('/signup', celebrate({
-  body: Joi.object().keys({
-    name: Joi.string().min(2).max(30),
-    about: Joi.string().min(2).max(30),
-    avatar: Joi.string().pattern(/^https?:\/\/(www.)?\S/i),
-    email: Joi.string().required().email(),
-    password: Joi.string().required(),
-  }),
-}), createUser);
-app.post('/signin', celebrate({
-  body: Joi.object().keys({
-    email: Joi.string().required().email(),
-    password: Joi.string().required(),
-  }),
-}), login);
+app.post('/signup', registerValidation, createUser);
+app.post('/signin', loginValidation, login);
 
 app.use(auth);
 app.use('/users', userRouter);

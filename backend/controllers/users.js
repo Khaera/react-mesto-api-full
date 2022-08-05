@@ -20,12 +20,8 @@ const getCurrentUser = (req, res, next) => {
   const userId = req.user._id;
 
   User.findById(userId)
-    .then((user) => {
-      if (!user) {
-        throw new NotFoundError('Пользователь по указанному id не найден.');
-      }
-      return res.send(user);
-    })
+    .orFail(new NotFoundError('Пользователь по указанному id не найден.'))
+    .then((user) => res.send(user))
     .catch((err) => {
       if (err.name === 'CastError') {
         return next(new BadRequestError('Передан некорректный id.'));
@@ -38,12 +34,8 @@ const getUser = (req, res, next) => {
   const { userId } = req.params;
 
   User.findById(userId)
-    .then((user) => {
-      if (!user) {
-        throw new NotFoundError('Пользователь по указанному id не найден.');
-      }
-      return res.send(user);
-    })
+    .orFail(new NotFoundError('Пользователь по указанному id не найден.'))
+    .then((user) => res.send(user))
     .catch((err) => {
       if (err.name === 'CastError') {
         return next(new BadRequestError('Передан некорректный id.'));
