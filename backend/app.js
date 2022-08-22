@@ -1,3 +1,4 @@
+require('dotenv').config();
 const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
@@ -12,7 +13,12 @@ const auth = require('./middlewares/auth');
 
 const { createUser, login } = require('./controllers/users');
 
-const { PORT = 3000, MONGO_LINK } = process.env;
+const {
+  NODE_ENV,
+  PORT = 3000,
+  MONGO_LINK,
+  LOCALHOST = 'mongodb://localhost:27017/mestodb',
+} = process.env;
 
 const handleErrors = require('./middlewares/handleErrors');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
@@ -31,7 +37,7 @@ app.use(bodyParser.json());
 
 app.use(cors);
 
-mongoose.connect(MONGO_LINK, {
+mongoose.connect(NODE_ENV === 'production' ? MONGO_LINK : LOCALHOST, {
   useNewUrlParser: true,
   useCreateIndex: true,
   useFindAndModify: false,

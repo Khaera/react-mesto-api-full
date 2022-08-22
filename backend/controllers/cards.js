@@ -31,7 +31,7 @@ const deleteCard = (req, res, next) => {
     .orFail(new NotFoundError('Карточка с указанным id не найдена.'))
     .then((card) => {
       if (JSON.stringify(card.owner) !== JSON.stringify(req.user._id)) {
-        throw next(new ForbiddenError('Нельзя удалить чужую карточку.'));
+        return next(new ForbiddenError('Нельзя удалить чужую карточку.'));
       }
       return Card.findByIdAndRemove(cardId)
         .then(() => res.send({ message: 'Пост удалён.' }));
